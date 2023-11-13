@@ -10,8 +10,6 @@ Example Run: python3 convert.py ./original/top500Domains.csv ./formatted/top500_
 import sys
 import csv
 
-from pathlib import Path
-
 
 def _check_input():
     """
@@ -51,6 +49,7 @@ def csv_to_formatted(source_file, index, target_file):
     :return: Nothing
     """
     csv_sites: set = set()
+    # Get CSV SITES
     try:
         with open(source_file, 'r') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
@@ -58,14 +57,22 @@ def csv_to_formatted(source_file, index, target_file):
                 csv_sites.add("https://" + row[int(index)])
             
     except FileNotFoundError:
-        print("The specified file, '%s', does not exist" % (sys.argv[1],), end='\n\n')
+        print("The specified file, '%s', does not exist" % (source_file,), end='\n\n')
         exit(1)
     except (IOError, Exception):
-        print("The specified file, '%s', could not open" % (sys.argv[1],), end='\n\n')
+        print("The specified file, '%s', could not open" % (source_file,), end='\n\n')
         exit(1)
     
-    print(csv_sites)
-
+    # Create formatted file
+    try:
+        with open(target_file, 'w') as outfile:
+            for site in csv_sites:
+                outfile.write(site +"\n")
+            
+    except (IOError, Exception):
+        print("The specified file, '%s', could not be written" % (target_file,), end='\n\n')
+        exit(1)
+    
 
 def main():
     """
