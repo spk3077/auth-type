@@ -1,0 +1,8 @@
+- hosts: localhost
+  tasks:
+    - name: Testing Module
+      auth-type: 
+      type: result
+      webfile: ./
+
+    - debug: var=result    
