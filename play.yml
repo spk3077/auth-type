@@ -1,7 +1,7 @@
 - hosts: localhost
   tasks:
     - name: Testing Module
-      auth-type: 
+      authtype_info: 
         type: Basic
         webfile: ./webfiles/formatted/top500_formatted.txt
       register: result
