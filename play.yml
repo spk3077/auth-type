@@ -2,8 +2,8 @@
   tasks:
     - name: Testing Module
       authtype_info: 
-        type: Basic
-        webfile: ./webfiles/formatted/top500_formatted.txt
+        type: ALL
+        webfile: ./webfiles/formatted/multiexternal.txt
       register: result
 
     - debug: var=result    

@@ -22,7 +22,7 @@ options:
     type:
         description:
             - Authentication type to check for
-            - Possible values: Basic, Digest, Bearer, HOBA, Mutual, Negotiate, VAPID', SCRAM, AWS4-HMAC-SHA256
+            - Possible values: Basic, Digest, Bearer, HOBA, Mutual, Negotiate, VAPID', SCRAM, AWS4-HMAC-SHA256, ALL
         required: true
         type: str
     webfile:
@@ -79,8 +79,8 @@ def check_request(site: str, auth_type: str) -> bool:
     if resp.status_code != 401 or 'WWW-Authenticate' not in resp.headers.keys():
         return False
     
-    # If Auth_Type Incorrect
-    if resp.headers['WWW-Authenticate'].split(" ")[0] != auth_type:
+    # If Auth_Type Incorrect or Auth_Type isn't ALL
+    if resp.headers['WWW-Authenticate'].split(" ")[0] != auth_type and auth_type != 'ALL':
         return False
     
     return True
@@ -117,7 +117,7 @@ def main():
         "type": 
         {
             "required": True,
-            "choices": ['Basic', 'Digest', 'Bearer', 'HOBA', 'Mutual', 'Negotiate', 'VAPID', 'SCRAM', 'AWS4-HMAC-SHA256'],
+            "choices": ['Basic', 'Digest', 'Bearer', 'HOBA', 'Mutual', 'Negotiate', 'VAPID', 'SCRAM', 'AWS4-HMAC-SHA256', 'ALL'],
             "type": "str"
         },
         "webfile": 
@@ -137,9 +137,9 @@ def main():
 
     for site in param_sites:
         if check_request(site, module.params['type']):
-            results['sites'].append(site)
+            results['sites'].append(site.rstrip())
 
-    if not has_errors():
+    if not has_errors:
         module.exit_json(**results)
     else:
         module.fail_json(**results)

@@ -1,0 +1,3 @@
+http://httpbin.org/basic-auth/foo/bar
+http://httpbin.org/digest-auth/auth/user/password
+http://httpbin.org/bearer

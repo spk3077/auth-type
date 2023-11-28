@@ -18,7 +18,8 @@ VALID_AUTH_SCHEMES: set = {
     'Negotiate',
     'VAPID',
     'SCRAM',
-    'AWS4-HMAC-SHA256'
+    'AWS4-HMAC-SHA256',
+    'ALL'
 }
 
 def _check_input():

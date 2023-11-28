@@ -30,7 +30,7 @@ The following options are used to operate the custom ansible module in ansible:
 
     **type**
     required: True
-    choices: 'Basic', 'Digest', 'Bearer', 'HOBA', 'Mutual', 'Negotiate', 'VAPID', 'SCRAM', 'AWS4-HMAC-SHA256'
+    choices: 'Basic', 'Digest', 'Bearer', 'HOBA', 'Mutual', 'Negotiate', 'VAPID', 'SCRAM', 'AWS4-HMAC-SHA256', 'ALL'
     type: str
 
     The HTTP authentication type to search for within the list of provided websites

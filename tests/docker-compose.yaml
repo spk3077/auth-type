@@ -5,9 +5,10 @@ version: "3.7"
 
 services:
   webserver:
-    image: httpd:latest
+    build: .
     restart: always
-    # volumes:
-    #   - 
+    volumes:
+      - ./basic/:/usr/local/apache2/htdocs/basic/
+      - ./digest/:/usr/local/apache2/htdocs/digest/
     ports:
       - 80:80
