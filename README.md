@@ -1,7 +1,6 @@
-# auth-type: Custom Ansible Module: authtype_info
+# authtype_info: Custom Ansible Module
+Determine if input HTTP authentication type exists in input list of websites. Output discovered sites from the input list to registered results, 'site'.
 
-
-counts all seen responses containing a particular Auth Type, and then prints discovered.
 
 ## Prerequisites
 The script assumes you are running the web server on the latest Ubuntu version.
@@ -24,6 +23,23 @@ Run the necessary commands below:
 
     # Install Python Dependencies
     pip install -r library/requirements.txt
+
+
+## Options
+The following options are used to operate the custom ansible module in ansible:
+
+    **type**
+    required: True
+    choices: 'Basic', 'Digest', 'Bearer', 'HOBA', 'Mutual', 'Negotiate', 'VAPID', 'SCRAM', 'AWS4-HMAC-SHA256'
+    type: str
+
+    The HTTP authentication type to search for within the list of provided websites
+
+    **webfile**
+    required: True
+    type: str
+
+    The path to a formatted, each line contains a single URL, text file containing a list of websites to assess
 
 
 ## Running
