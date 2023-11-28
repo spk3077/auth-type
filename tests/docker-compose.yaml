@@ -1,0 +1,13 @@
+# File: docker-compose.yaml
+# Assignment: MiniProject-3
+# Author: Sean Kells <spk3077@rit.edu>
+version: "3.7"
+
+services:
+  webserver:
+    image: httpd:latest
+    restart: always
+    # volumes:
+    #   - 
+    ports:
+      - 80:80

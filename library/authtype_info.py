@@ -4,7 +4,7 @@ File: authtype_info.py
 Assignment: Mini-Project 3
 Lanuguage: python3
 Author: Sean Kells <spk3077@rit.edu>
-Purpose: Determine if authorization type exists in input list of websites
+Purpose: Determine if authentication type exists in input list of websites
 Running: Refer to play.yml
 Example Test: ./library ansible -m authtype_info -a 'type=Basic webfile=./webfiles/formatted/top500_formatted.txt' localhost
 """
@@ -12,11 +12,11 @@ DOCUMENTATION = r'''
 ---
 module: authtype_info
 
-short_description: This is my test module
+short_description: Determine if auth type exists in input list of websites.
 
 version_added: "1.0.0"
 
-description: This is my longer description explaining my test module.
+description: Determine if input HTTP authentication type exists in input list of websites. Output discovered sites from the input list to registered results, 'site'.
 
 options:
     type:
@@ -57,10 +57,10 @@ EXAMPLES = r'''
 RETURN = r'''
 # These are examples of possible return values, and in general should use other names for return values.
 sites:
-    description: The sites that had the authorization type specified.
+    description: The sites that had the authentication type specified.
     type: list
     returned: always
-    sample: '['https://www.google.com', 'https://jersy.com']
+    sample: '['https://www.google.com', 'http://httpbin.org/basic-auth/foo/bar']
 '''
 import requests
 from ansible.module_utils.basic import *
@@ -68,17 +68,21 @@ from ansible.module_utils.basic import *
 
 def check_request(site: str, auth_type: str) -> bool:
     """
-    check_request send HTTP GET request to inputted site to assess if authorization type is present
+    check_request send HTTP GET request to inputted site to assess if authentication type is present
 
     :param site: the website to assess
-    :param auth_type: Authorization type to check for
-    :return: if authorization type is present in response headers
+    :param auth_type: Authentication type to check for
+    :return: if authentication type is present in response WWW-Authenticate header
     """
     resp = requests.get(site)
-    print(resp)
-    print("---------------------------------------")
-    print(resp.headers)
-
+    # If WWW-Authenticate doesn't exist or not 401 response
+    if resp.status_code != 401 or 'WWW-Authenticate' not in resp.headers.keys():
+        return False
+    
+    # If Auth_Type Incorrect
+    if resp.headers['WWW-Authenticate'].split(" ")[0] != auth_type:
+        return False
+    
     return True
     
 
@@ -132,7 +136,8 @@ def main():
     has_errors, param_sites = get_websites(module.params['webfile'])
 
     for site in param_sites:
-        site(check_request)
+        if check_request(site, module.params['type']):
+            results['sites'].append(site)
 
     if not has_errors():
         module.exit_json(**results)
