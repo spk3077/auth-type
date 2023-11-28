@@ -3,7 +3,7 @@
     - name: Testing Module
       authtype_info: 
         type: ALL
-        webfile: ./webfiles/formatted/multiexternal.txt
+        webfile: ./webfiles/formatted/localhost.txt
       register: result
 
     - debug: var=result    

@@ -5,7 +5,11 @@ Contains docker-compose file that runs a test Apache server with HTTP authentica
 http://localhost/basic/index.html
 
 *Digest Auth:*
-http://localhost/basic/index.html
+http://localhost/digest/index.html
+
+The credentials for accessing these sites are:
+user: admin
+password: password
 
 
 ## Prerequisites

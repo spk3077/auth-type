@@ -1,1 +1,2 @@
-http://localhost/
+http://localhost/basic/index.html
+http://localhost/digest/index.html

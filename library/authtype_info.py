@@ -74,16 +74,20 @@ def check_request(site: str, auth_type: str) -> bool:
     :param auth_type: Authentication type to check for
     :return: if authentication type is present in response WWW-Authenticate header
     """
-    resp = requests.get(site)
-    # If WWW-Authenticate doesn't exist or not 401 response
-    if resp.status_code != 401 or 'WWW-Authenticate' not in resp.headers.keys():
-        return False
+    try:
+        resp = requests.get(site)
+        # If WWW-Authenticate doesn't exist or not 401 response
+        if resp.status_code != 401 or 'WWW-Authenticate' not in resp.headers.keys():
+            return False
+        
+        # If Auth_Type Incorrect or Auth_Type isn't ALL
+        elif resp.headers['WWW-Authenticate'].split(" ")[0] != auth_type and auth_type != 'ALL':
+            return False
+        
+        return True
     
-    # If Auth_Type Incorrect or Auth_Type isn't ALL
-    if resp.headers['WWW-Authenticate'].split(" ")[0] != auth_type and auth_type != 'ALL':
+    except Exception:
         return False
-    
-    return True
     
 
 def get_websites(file_path: str) -> tuple[bool, set]:
