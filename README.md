@@ -1,5 +1,5 @@
 # authtype_info: Custom Ansible Module
-Determine if input HTTP authentication type exists in input list of websites. Output discovered sites from the input list to registered results, 'site'.
+Determine if input HTTP authentication type exists in input list of websites. Output discovered sites from the input list to the registered result, 'site'.
 
 
 ## Prerequisites
